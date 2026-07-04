@@ -1,4 +1,4 @@
-name: Autolinter
+name: Auto Linter
 on: 
   push: 
     paths: "*.py"
