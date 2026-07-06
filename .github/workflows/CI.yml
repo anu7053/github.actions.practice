@@ -1,25 +1,28 @@
 # Goal: To deploy the built images from CI Steps once the CI Worklow is Succeeded
-name: CI
-
-on: 
-    push: 
-        branches: [main]
+on:
+  push:
+    branches: [main]
 
 jobs:
   build-and-push:
-   runs-on: ubuntu latest
-   steps:
-    - name: Code Checkout
-      uses: actions/checkout@v7
+    runs-on: ubuntu-latest
 
-    - name: Copy Example Env to main env
-      run: cp .env.example .env
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
 
-    - name: Docker Setup [Login]
-      uses: docker/login-action@v4
-      with:
-        username: ${{ vars.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-        
+      - name: Copy Example Env to main env
+        run: cp .env.example .env
 
+      - name: Docker Login
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/YOUR_REPO_NAME:latest
