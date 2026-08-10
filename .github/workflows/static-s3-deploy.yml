@@ -2,7 +2,7 @@ name: Deplyo HTML to S3
 on: push
 jobs:
   deploy:  
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code from repo
         uses: actions/checkout@v7
